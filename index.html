@@ -2989,6 +2989,14 @@ function computeCode(birthDigits) {
    ------------------------------------------------------------ */
 const R3_VIDEO_ID = 'RIJjO65-e-0';
 
+/* ------------------------------------------------------------
+   AUFTRAGSVIDEO (Startseite nach der Anmeldung) und
+   ABSCHLUSSVIDEO (letzte Seite, über der Arena).
+   Zum Austauschen genügt es, hier die YouTube-Video-ID zu ändern.
+   ------------------------------------------------------------ */
+const INTRO_VIDEO_ID = 'ShLxo4Mrb0I';
+const FINAL_VIDEO_ID = 'Sh0REtJ1o5w';
+
 const ROOMS = [
   {
     id: 1,
@@ -3714,6 +3722,7 @@ function renderIntro() {
   state.screen = 'intro';
   renderSeals();
   root.innerHTML = `
+    ${videoBlock(INTRO_VIDEO_ID, 'Einführung in den Escape-Room „Das Zeitportal"')}
     <div class="kicker">Ethik · Jahrgang 7 · Auftrag</div>
     <h1 class="title-mega">Willkommen,<br><em>${state.firstName}</em></h1>
     <p class="lede">Fünf Bibliotheksräume. Fünf Rätselräume. Ein Codewort.<br>Deine Zeitreise zur Frage: Warum hat der Mensch Würde?</p>
@@ -3779,6 +3788,19 @@ window.showHelp = () => {
 /* ============================================================
    SCREEN: ROOM HEADER (shared)
    ============================================================ */
+
+// Baut einen eingebetteten YouTube-Film samt Fallback-Link (gleiche Optik wie in Bibliothek 3)
+function videoBlock(id, title) {
+  if (!id) return '';
+  return `
+    <div class="video-wrap">
+      <iframe src="https://www.youtube-nocookie.com/embed/${id}?rel=0" title="${title}" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" referrerpolicy="strict-origin-when-cross-origin" allowfullscreen></iframe>
+    </div>
+    <div class="fallback-line">
+      <span>Video lädt nicht oder zeigt einen Fehler?</span>
+      <a class="btn btn-ghost" href="https://www.youtube.com/watch?v=${id}" target="_blank" rel="noopener noreferrer">Direkt auf YouTube öffnen ↗</a>
+    </div>`;
+}
 
 function roomHeader(room) {
   return `
@@ -5452,6 +5474,8 @@ function renderFinal() {
         Überblick als PDF herunterladen
       </button>
     </div>
+
+    ${videoBlock(FINAL_VIDEO_ID, 'Abschluss: So geht es in der Arena weiter')}
 
     <div class="arena">
       <div class="arena-kicker">Das große Finale</div>
